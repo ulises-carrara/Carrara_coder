@@ -21,14 +21,15 @@ public class Cliente {
     private Integer dni;
     @Column
     private Integer edad ;
-
-    @ManyToMany
-    @JoinTable(
-            name = "Cliente_Producto", //se usa el nombre de los dos recursos
-            joinColumns = @JoinColumn(name = "cliente_id"),
-            inverseJoinColumns = @JoinColumn(name = "producto_id")
-    )
     private List<Producto> carrito = new ArrayList<>();
+
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "cliente_id")
+    private List<Carrito> carritos;
+
+    @OneToMany(mappedBy = "cliente_id", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comprobante> comprobantes;
 
     public Cliente(){}
     public Cliente(String nombre, String apellido, Integer dni, Integer edad) {
@@ -36,6 +37,22 @@ public class Cliente {
         this.apellido = apellido;
         this.dni = dni;
         this.edad = edad;
+    }
+
+    public List<Carrito> getCarritos() {
+        return carritos;
+    }
+
+    public void setCarritos(List<Carrito> carritos) {
+        this.carritos = carritos;
+    }
+
+    public List<Comprobante> getComprobantes() {
+        return comprobantes;
+    }
+
+    public void setComprobantes(List<Comprobante> comprobantes) {
+        this.comprobantes = comprobantes;
     }
 
     public Integer getId() {

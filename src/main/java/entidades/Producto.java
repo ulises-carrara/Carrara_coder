@@ -2,6 +2,7 @@ package entidades;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,11 +19,23 @@ public class Producto {
     @Column
     private Integer stock;
 
+    @OneToMany(mappedBy = "producto_id", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Carrito> carritos;
+
+
     public Producto(){}
     public Producto(String nombre, Integer precio, Integer stock) {
         this.nombre = nombre;
         this.precio = precio;
         this.stock = stock;
+    }
+
+    public List<Carrito> getCarritos() {
+        return carritos;
+    }
+
+    public void setCarritos(List<Carrito> carritos) {
+        this.carritos = carritos;
     }
 
     public Integer getStock() {
